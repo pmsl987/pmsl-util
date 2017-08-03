@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Ps\\Test\\' => array($baseDir . '/src/Ps/Test'),
+    'PmslUtil\\' => array($baseDir . '/src/PmslUtil'),
 );

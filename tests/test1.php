@@ -2,6 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
-use Ps\Test\SayHello;
+use PmslUtil\SayHello;
 
 echo SayHello::world();
