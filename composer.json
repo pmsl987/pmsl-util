@@ -11,10 +11,12 @@
     "require": {
         "php": ">=5.3.0"
     },
+    "require-dev": {
+    },
     "autoload": {
         "psr-4": {
             "PmslUtil\\": "src/PmslUtil/",
-            "Ps\\Test\\": "src/Ps/Test/"
+            "PmslTest\\": "src/PmslTest/"
         }
     }
 }
