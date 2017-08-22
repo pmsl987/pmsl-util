@@ -4,13 +4,13 @@
  * User: pmsl
  * Date: 17-8-22
  * Time: 下午4:11
- * 用途:
+ * 用途: 邮件工具
  */
 
 namespace PmslUtil;
 
-
-class MailUtil {
+class MailUtil
+{
     /**
      *
      * @param $email 接受者邮箱
@@ -20,7 +20,8 @@ class MailUtil {
      * @param bool $attachmentPath 附件的本地路径
      * @return bool|string 成功发送返回true，不成功发送返回错误信息
      */
-    public static function send($email,$subject,$body,$backupBody=false,$attachmentPath=false){
+    public static function send($email, $subject, $body, $backupBody = false, $attachmentPath = false)
+    {
         require 'PHPMailerAutoload.php';
         $mail = new PHPMailer;
 
@@ -42,8 +43,8 @@ class MailUtil {
 //        $mail->addBCC('bcc@example.com');
 
         //附件
-        if(!$attachmentPath){
-        $mail->addAttachment($attachmentPath);
+        if (!$attachmentPath) {
+            $mail->addAttachment($attachmentPath);
         }
 //        $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
 //        $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
@@ -51,8 +52,8 @@ class MailUtil {
 
         $mail->Subject = $subject;
         $mail->Body = $body;
-        if(!$backupBody){
-        $mail->AltBody = $backupBody;
+        if (!$backupBody) {
+            $mail->AltBody = $backupBody;
         }
 
         if (!$mail->send()) {
@@ -61,5 +62,4 @@ class MailUtil {
             return true;
         }
     }
-
 }
