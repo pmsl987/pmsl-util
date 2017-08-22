@@ -3,11 +3,12 @@
     "description": "util",
     "type": "library",
     "license": "BSD",
+    "version": "1.0.0",
     "authors": [{
         "name": "pmsl",
         "email": "pmsl987@163.com"
     }],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
         "phpmailer/phpmailer": "^5.2"
