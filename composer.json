@@ -17,6 +17,7 @@
     "autoload": {
         "psr-4": {
             "PmslUtil\\": "src/PmslUtil/",
+            "WeixinUtil\\": "src/WeixinUtil/",
             "PmslTest\\": "src/PmslTest/"
         }
     }
