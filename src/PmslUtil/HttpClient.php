@@ -19,12 +19,11 @@
 
 namespace PmslUtil;
 
-class HttpClient
-{
+class HttpClient {
 
     /**
      * 发送请求
-     * @param $URL string 目标地址
+     * @param $url string 目标地址
      * @param $method string 请求方法
      * @param $params string 请求参数
      * @param $returnHeader boolean 要不要求返回响应头
@@ -32,10 +31,40 @@ class HttpClient
      * @param $timeout int 超时时间
      * @return mixed
      */
-    public function send($URL, $method, $params = '', $returnHeader = false, $headers = '', $timeout = 5)
-    {
+    public function send($url, $method, $params = '', $returnHeader = false, $headers = '', $timeout = 5){
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $URL);//目标地址
+        //请求方法
+        switch (strtoupper($method)) {
+            case "GET":
+                if (is_array($params)) {
+                        $url.='?';
+                    foreach ($params as $k=>$v){
+                        $url.="{$k}={$v}&";
+                    }
+                    $url = substr($url, 0, strlen($url) - 1);
+                    curl_setopt($curl, CURLOPT_URL, $url);//目标地址
+                } else {
+                    curl_setopt($curl, CURLOPT_URL, $url);//目标地址
+                }
+                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                break;
+            case "POST":
+                curl_setopt($curl, CURLOPT_URL, $url);//目标地址
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_URL, $url);//目标地址
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+                break;
+            case "DELETE":
+                curl_setopt($curl, CURLOPT_URL, $url);//目标地址
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+                break;
+        }
+
         //请求头,默认为application/json
         if ($headers != "") {
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -52,25 +81,6 @@ class HttpClient
 //            curl_setopt($curl, CURLOPT_NOBODY, true);
         }
 
-        //请求方法
-        switch (strtoupper($method)) {
-            case "GET":
-                curl_setopt($curl, CURLOPT_HTTPGET, true);
-                break;
-            case "POST":
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-                break;
-            case "PUT":
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-                break;
-            case "DELETE":
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-                break;
-        }//        用于出错调试
-
 
 //        用于出错调试
         curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
@@ -86,8 +96,7 @@ class HttpClient
     }
 
 
-    public function uploadFile($URL, $file_data = array('name' => '', 'path' => ''), $post_data = array(), $timeout = 5)
-    {
+    public function uploadFile($URL, $file_data = array('name' => '', 'path' => ''), $post_data = array(), $timeout = 5){
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $URL);//目标地址
 
@@ -100,8 +109,7 @@ class HttpClient
             }
         }
 //        $params[$file_data['name']]=new \CURLFile($file_data['path']);
-        $params[$file_data['name']] = curl_file_create($file_data['path'], 'image/jpg', $file_data['path']);
-        ;
+        $params[$file_data['name']] = curl_file_create($file_data['path'], 'image/jpg', $file_data['path']);;
         var_dump($params);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
